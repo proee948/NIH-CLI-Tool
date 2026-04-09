@@ -1,6 +1,6 @@
 # NIH-CLI-Tool
 
-A lightweight C-based command-line utility for simple snippet storage and argument parsing experiments.
+A lightweight C-based command-line utility for simple snippet storage.
 
 ## Features
 
