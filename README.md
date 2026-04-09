@@ -11,6 +11,11 @@ A lightweight C-based command-line utility for simple snippet storage and argume
 - Writes long input tokens into a text file
 - Basic snippet storage system (`snippets.txt`)
 
+## GOALS
+simple flow and use
+ncurses menu that allows selecting saved commands
+
+
 ## Build
 
 Compile using `gcc`:
