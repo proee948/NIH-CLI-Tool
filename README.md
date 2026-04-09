@@ -21,5 +21,5 @@ ncurses menu that allows selecting saved commands
 Compile using `gcc`:
 
 ```bash
-gcc main.c -o nih
+gcc nih.c -o nih
 
