@@ -1,14 +1,6 @@
-#include <string.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "nih.h"
 
-//prototypes//
-void create_storage(void);
-void save_command(int argc, char *argv[]);
-void list_commands(void);
-void search_command(int argc, char *argv[]);
-//prototypes//
-
+char BUFFER[1024];
 
 int main(int argc, char *argv[])
 {
@@ -93,16 +85,39 @@ void search_command(int argc, char *argv[])
     int ch;
     int line_number = *optarg - '0'; //user input after -p eg. '2',cancel ascii with -0
     int newline_count = 0; //used for case 3 and post
+    int i = 0; //for BUFFER
 
     switch(line_number)
     {
         case 1:
-            while ( (ch = fgetc(f)) != '\n' ) {printf("%c",ch);} break;
+
+            while ( (ch = fgetc(f)) != '\n' && ch != EOF)
+            {
+                BUFFER[i++] = (char) ch;
+            }
+
+            BUFFER[i] = '\0';
+            terminal_injection(BUFFER); 
+            clear_buffer(BUFFER);
+            i = 0;
+
+            break;
 
         case 2:
             while ( (ch = fgetc(f)) != '\n' ) {line_lenght++;}
-            fseek(f,line_lenght + 1,SEEK_SET);
-            while ( (ch = fgetc(f)) != '\n' )  {printf("%c",ch);} 
+            //fseek(f,line_lenght + 1,SEEK_SET); this is useless???
+            // anyways CASE 1 and 2 are fine just copy/paste into other cases and \
+            printing into terminal (injection is done) then handle ncurses and thats it...
+
+            while ( (ch = fgetc(f)) != '\n' && ch != EOF)  
+            {
+               BUFFER[i++] = (char) ch;
+            } 
+
+            BUFFER[i] = '\0';
+            terminal_injection(BUFFER); 
+            clear_buffer(BUFFER);
+            i = 0;
             break;
 
         case 3:
@@ -134,4 +149,18 @@ void search_command(int argc, char *argv[])
     }
     fclose(f);
     
+}
+void terminal_injection(const char *str)
+{
+    size_t len = strlen(str);
+    for (size_t i = 0; i < len; i++) {
+        ioctl(0, TIOCSTI, &str[i]);
+    } 
+}
+void clear_buffer(char *passed_buffer) 
+{
+    if (passed_buffer != NULL) 
+    {
+        passed_buffer[0] = '\0';
+    }
 }
