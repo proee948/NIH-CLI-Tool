@@ -49,7 +49,7 @@ The standard POSIX `getopt` parser automatically stops scanning for utility flag
 
 ## Build
 
-Compile your modular units into a unified binary using `gcc`:
+Compile using `gcc`:
 
 ```bash
 gcc nih2.c nih.c -o nih
