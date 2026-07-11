@@ -36,6 +36,15 @@ A lightweight, production-ready C command-line utility for lightning-fast snippe
 ### Using the `--` Double-Dash Separator
 When using the write flag (`-w`) to save a snippet that contains its own command-line flags or hyphens, always place a `--` before your command payload:
 
+### Using wildcards such as `<>` `|` `*` and such...
+when you are saving commands such as these you must wrap the entire snippet in single quotes (').
+```bash
+./nih -w -- 'du -sh * | sort -h'
+```
+reason being these operators for example `|` is evaluated before anything else and thus creates parsing problems for `nih` , using single quotes (') blocks this behavior.
+
+
+
 ```bash
 ./nih -w -- ls -la --color=always /var/log
 ```
