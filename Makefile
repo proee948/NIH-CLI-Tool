@@ -1,5 +1,4 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O2 -g
 
 TARGET = nih
 SRCS = nih.c nih2.c
