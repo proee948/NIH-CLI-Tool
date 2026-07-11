@@ -1,8 +1,4 @@
 #include "nih.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 char BUFFER[1024];
 
