@@ -4,7 +4,7 @@ A lightweight, production-ready C command-line utility for lightning-fast snippe
 
 ## Features
 
-- **Dual-Layer Execution Pipeline:** Attempts direct terminal keystroke injection via low-level system ioctl calls.
+- **Dual-Layer Execution Pipeline:** Attempts direct terminal keystroke injection via low-level system `ioctl` calls.
 - **Silent Clipboard Fallback:** Automatically switches to an invisible `xclip` daemon pipeline if kernel protections block physical injection.
 - **Dynamic File Parsing:** Zero-allocation line streaming allows you to jump directly to any selected line index instantly.
 - **Persistent Storage:** Safely creates, appends, and queries shell commands directly within a flat asset payload (`snippets.txt`).
