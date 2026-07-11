@@ -18,7 +18,7 @@ A lightweight, production-ready C command-line utility for lightning-fast snippe
 
 ### Save a Command
 ```bash
-./nih -w echo "Hello World" && sudo apt update
+./nih -w -- 'echo "Hello World" && sudo apt update'
 ```
 
 ### List Saved Commands
@@ -31,40 +31,47 @@ A lightweight, production-ready C command-line utility for lightning-fast snippe
 ./nih -p 3
 ```
 
+### Launch Interactive Selection Menu
+```bash
+./nih
+```
+
 ## Useful Tips
 
-### Using the `--` Double-Dash Separator
-When using the write flag (`-w`) to save a snippet that contains its own command-line flags or hyphens, always place a `--` before your command payload:
+### Handling Shell Operators (`|`, `<`, `>`, `*`, `&&`)
+When saving a command string that includes system redirections, pipe mechanics, globbing wildcards, or logical chains, you must envelop the entire string payload within single quotes (`'`):
 
-### Using wildcards such as `<>` `|` `*` and such...
-when you are saving commands such as these you must wrap the entire snippet in single quotes (').
 ```bash
 ./nih -w -- 'du -sh * | sort -h'
 ```
-reason being these operators for example `|` is evaluated before anything else and thus creates parsing problems for `nih` , using single quotes (') blocks this behavior.
 
-If you ever need to pass a payload containing its own single quote, you must step out of the block, escape the quote, and step back in like this:
+#### Why you need this:
+The active Bash shell evaluates operators like the pipeline (`|`) *before* passing tokens down to the destination binary. Without strict quote constraints, your shell will intercept the statement prematurely, attempting to pipe the internal execution states of `./nih` into subsequent operations. Single quotes completely dearm these control sequences, converting them into a harmless literal text stream.
+
+If your snippet requires an inner single quote string literal, step out of the expression block, append an escaped quote sequence, and restart the literal tracking block immediately:
+
 ```bash
 ./nih -w -- 'echo '\''Hello World'\'''
 ```
 
+### Using the `--` Double-Dash Separator
+When writing a snippet that contains nested execution flags, place a detached double-dash prefix sequence (`--`) before writing your instruction data block:
 
 ```bash
 ./nih -w -- ls -la --color=always /var/log
 ```
 
 #### Why you need this:
-The standard POSIX `getopt` parser automatically stops scanning for utility flags the exact moment it encounters a standalone `--`. Without it, if your snippet contains a dash (like `-la` or `--color`), `getopt` will mistake those strings for options belonging to the `./nih` binary itself, causing parsing errors or dropping characters before they can be committed to `snippets.txt`.
+The underlying POSIX standard `getopt` parser automatically concludes flag lookups the exact moment it meets a standalone `--` operator. If this guard sequence is excluded, any subsequent token beginning with a dash parameter (such as `-la` or `--color`) will be mistakenly intercepted by `getopt` as configuration directives native to `./nih` itself, resulting in unexpected syntax errors.
 
 ## GOALS
 
-- [ ] Add an interactive `ncurses` selection menu UI to cycle through stored macros.
+- [x] Add an interactive `ncurses` selection menu UI to cycle through stored macros.
 
 ## Build
 
-Compile using `gcc`:
+Compile the codebase using `gcc`, linking both the base `ncurses` runtime engine and the top-tier `cdk` abstraction toolkit libraries:
 
 ```bash
-gcc nih2.c nih.c -o nih
+gcc main.c nih.c -o nih -lcdk -lncurses
 ```
-
