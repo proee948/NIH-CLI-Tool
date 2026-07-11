@@ -43,6 +43,10 @@ when you are saving commands such as these you must wrap the entire snippet in s
 ```
 reason being these operators for example `|` is evaluated before anything else and thus creates parsing problems for `nih` , using single quotes (') blocks this behavior.
 
+If you ever need to pass a payload containing its own single quote, you must step out of the block, escape the quote, and step back in like this:
+```bash
+./nih -w -- 'echo '\''Hello World'\'''
+```
 
 
 ```bash
