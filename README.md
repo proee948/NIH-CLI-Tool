@@ -1,6 +1,6 @@
 # NIH-CLI-Tool
 
-A lightweight, production-ready C command-line utility for lightning-fast snippet management and terminal command ingestion.
+C command-line utility for snippet management and terminal command ingestion.
 
 ## Features
 
