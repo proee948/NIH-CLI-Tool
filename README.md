@@ -73,5 +73,5 @@ The underlying POSIX standard `getopt` parser automatically concludes flag looku
 Compile the codebase using `gcc`, linking both the base `ncurses` runtime engine and the top-tier `cdk` abstraction toolkit libraries:
 
 ```bash
-gcc main.c nih.c -o nih -lcdk -lncurses
+gcc nih2.c nih.c -o nih -lcdk -lncurses
 ```
