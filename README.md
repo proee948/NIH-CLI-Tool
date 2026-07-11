@@ -64,10 +64,6 @@ When writing a snippet that contains nested execution flags, place a detached do
 #### Why you need this:
 The underlying POSIX standard `getopt` parser automatically concludes flag lookups the exact moment it meets a standalone `--` operator. If this guard sequence is excluded, any subsequent token beginning with a dash parameter (such as `-la` or `--color`) will be mistakenly intercepted by `getopt` as configuration directives native to `./nih` itself, resulting in unexpected syntax errors.
 
-## GOALS
-
-- [x] Add an interactive `ncurses` selection menu UI to cycle through stored macros.
-
 ## Build
 
 Compile the codebase using `gcc`, linking both the base `ncurses` runtime engine and the top-tier `cdk` abstraction toolkit libraries:
@@ -75,6 +71,14 @@ Compile the codebase using `gcc`, linking both the base `ncurses` runtime engine
 ```bash
 gcc nih2.c nih.c -o nih -lcdk -lncurses
 ```
+or just use makefile.
 
 ## DEPENDENCIES
 `ncurses` and `cdk`
+## MISC
+for easier use (if you want the tool to automatically insert commands onto the cursor in terminal,
+you have to enable this by default blocked kernel parameter:
+```bash
+sudo sysctl -w dev.tty.legacy_tiocsti=1
+```
+if you choose not to tool will work just fine,but it will copy to your clipboard instead of terminal
