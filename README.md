@@ -75,3 +75,6 @@ Compile the codebase using `gcc`, linking both the base `ncurses` runtime engine
 ```bash
 gcc nih2.c nih.c -o nih -lcdk -lncurses
 ```
+
+## DEPENDENCIES
+`ncurses` and `cdk`
